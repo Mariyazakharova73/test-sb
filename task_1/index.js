@@ -45,5 +45,4 @@ function getUniqueValues(arr) {
 }
 
 console.log(decoded);
-
 console.log(getUniqueValues(encoded));
