@@ -1,35 +1,25 @@
 <script lang="ts">
-  import Converter from './lib/Converter.svelte';
-  const endpoint = "https://open.er-api.com/v6/latest/USD";
+	import Converter from './lib/Converter.svelte';
+	import { ENDPOINT } from './utils/constants';
 
+	async function getData() {
+		const res = await fetch(ENDPOINT);
+		const data = await res.json();
 
-  async function getData() {
-    const res = await fetch(endpoint);
-    const data = await res.json();
+		return data;
+	}
 
-    return data;
-  }
-
-  let currencyDataPromise = getData()
-  console.log(currencyDataPromise, 'currencyData')
+	let currencyDataPromise = getData();
 </script>
 
-
-
 <main>
-  <div class="wrapper">
-    {#await currencyDataPromise}
-    <p>...Loading</p>
-    {:then res}
-    <Converter data={res}/>
-    {:catch error}
-    <p style="color: red">{error.message}</p>
-    {/await}
-  </div>
+	<section class="wrapper">
+		{#await currencyDataPromise}
+			<p>...Loading</p>
+		{:then res}
+			<Converter data={res} />
+		{:catch error}
+			<p class="error">{error.message}</p>
+		{/await}
+	</section>
 </main>
-
-<style>
-  .read-the-docs {
-    color: #888;
-  }
-</style>
